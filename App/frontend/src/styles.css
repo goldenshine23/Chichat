@@ -1,0 +1,99 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0; padding: 0;
+  background-color: #e5ddd5;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+.contact-list {
+  width: 20%;
+  background: #075e54;
+  color: white;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.contact-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-list li {
+  padding: 8px;
+  border-bottom: 1px solid #128c7e;
+}
+
+.chat-window {
+  flex: 1;
+  background: white;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.message {
+  padding: 8px 12px;
+  border-radius: 20px;
+  max-width: 60%;
+  background: #dcf8c6;
+  align-self: flex-start;
+}
+
+.message.own {
+  background: #34b7f1;
+  color: white;
+  align-self: flex-end;
+}
+
+.message-input {
+  display: flex;
+  padding: 10px;
+  background: #f0f0f0;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.message-input button {
+  margin-left: 10px;
+  background: #25d366;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login input {
+  padding: 8px 12px;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.login button {
+  background: #25d366;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
