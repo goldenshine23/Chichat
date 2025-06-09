@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chichat-deployment
+  labels:
+    app: chichat
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chichat
+  template:
+    metadata:
+      labels:
+        app: chichat
+    spec:
+      containers:
+      - name: chichat-container
+        image: chinedudazi/my-image:latest
+        ports:
+        - containerPort: 80
