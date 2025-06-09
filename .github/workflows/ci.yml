@@ -1,0 +1,31 @@
+name: Build, SonarCloud Analysis & Trivy Scan
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  DOCKERHUB_REPO_BACKEND: ${{ secrets.DOCKER_USERNAME }}/chichat-backend
+  DOCKERHUB_REPO_FRONTEND: ${{ secrets.DOCKER_USERNAME }}/chichat-frontend
+  SONAR_PROJECT_KEY: your-sonarcloud-project-key
+  SONAR_ORGANIZATION: your-sonarcloud-org
+  SONAR_HOST_URL: https://sonarcloud.io
+
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Setup Node.js for Sonar scanner & frontend build
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install backend dependencies
+        run: cd backend && npm install
