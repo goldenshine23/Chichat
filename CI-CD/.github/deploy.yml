@@ -4,20 +4,25 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: read
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout code
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      # Setup Node.js for frontend build
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # Frontend build & Firebase deploy
+      # ---------- Frontend Build & Firebase Hosting ----------
       - name: Install frontend dependencies
         run: cd frontend && npm install
 
@@ -31,7 +36,7 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-      # Docker image build & push
+      # ---------- Docker Build & Push ----------
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -49,15 +54,16 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/chichat-backend:latest
 
-      - name: Build and push frontend image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/chichat-frontend:latest
+      # Uncomment below if you want to build and push frontend as Docker image too
+      # - name: Build and push frontend image
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: ./frontend
+      #     file: ./frontend/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_USERNAME }}/chichat-frontend:latest
 
-      # Kubernetes deploy
+      # ---------- AWS EKS + Kubernetes Deploy ----------
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -65,10 +71,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Update kubeconfig
+      - name: Update kubeconfig for EKS
         run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
 
-      - name: Deploy Kubernetes manifests
+      - name: Deploy to Kubernetes
         working-directory: ./kubernetes
         run: |
           kubectl apply -f deployment.yaml
