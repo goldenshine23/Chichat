@@ -1,0 +1,6 @@
+grafana:
+  persistence:
+    enabled: false
+prometheus:
+  prometheusSpec:
+    storageSpec: {}

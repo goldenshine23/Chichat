@@ -12,22 +12,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
+      # ---------- Checkout Repo ----------
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      # Setup Node.js for frontend build
+      # ---------- Setup Node.js for Frontend ----------
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # ---------- Frontend Build & Firebase Hosting ----------
       - name: Install frontend dependencies
-        run: cd frontend && npm install
+        working-directory: ./frontend
+        run: npm install
 
       - name: Build frontend
-        run: cd frontend && npm run build
+        working-directory: ./frontend
+        run: npm run build
 
       - name: Deploy frontend to Firebase Hosting
         uses: w9jds/firebase-action@v13
@@ -54,14 +55,12 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/chichat-backend:latest
 
-      # Uncomment below if you want to build and push frontend as Docker image too
-      # - name: Build and push frontend image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: ./frontend
-      #     file: ./frontend/Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.DOCKER_USERNAME }}/chichat-frontend:latest
+      # ---------- (Optional) Backend Tests ----------
+      - name: Run backend tests
+        working-directory: ./backend
+        run: |
+          pip install -r requirements.txt
+          pytest
 
       # ---------- AWS EKS + Kubernetes Deploy ----------
       - name: Configure AWS credentials
@@ -79,3 +78,4 @@ jobs:
         run: |
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
+          kubectl rollout status deployment/chichat-backend

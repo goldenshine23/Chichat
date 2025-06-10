@@ -15,3 +15,7 @@ output "ecr_repository_url" {
   value       = aws_ecr_repository.chichat_repo.repository_url
   description = "The URI of the chichat ECR repository"
 }
+resource "aws_ecr_repository" "chichat" {
+  name                 = "chichat"
+  force_delete         = true
+}
