@@ -1,1 +1,84 @@
-(paste the above)
+
+########################################################
+#  General
+########################################################
+# IDE / editor settings
+.vscode/
+.idea/
+*.code-workspace
+# OS generated files
+.DS_Store
+Thumbs.db
+# Vim / Nano swap files
+*.sw?
+*~
+
+########################################################
+#  Python / Flask
+########################################################
+# Byte-compiled, cache, and dist files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+build/
+dist/
+# Virtual environments
+.env/
+.venv/
+env/
+venv/
+# Test & coverage output
+.coverage
+htmlcov/
+.pytest_cache/
+
+########################################################
+#  Docker
+########################################################
+# Docker override / env files
+docker-compose.override.yml
+*.env
+# Docker build cache
+**/*-build/
+
+########################################################
+#  Terraform
+########################################################
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+# Crash logs & lock file
+.crash/
+.terraform.lock.hcl
+
+########################################################
+#  Kubernetes / Helm
+########################################################
+# Kubeconfig & TLS material
+*.kubeconfig
+*.crt
+*.key
+*.pem
+# Helm chart build output
+charts/*/charts/
+charts/*/tmpcharts/
+
+########################################################
+#  AWS, Cloud & Secrets
+########################################################
+.aws/
+*.pem
+*.pfx
+*secrets*.yaml
+*.secret
+*.credentials
+
+########################################################
+#  Logs & reports
+########################################################
+*.log
+logs/
